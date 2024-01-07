@@ -1,0 +1,1 @@
+Multiplatform graphql implementation using apollo graphql client, provides CRUD functionality on Todos. <b>NB: </b> this project needs to run side-by-side with the [server](https://github.com/MwaiBanda/GraphQL-Server) to facilitate app functionality
