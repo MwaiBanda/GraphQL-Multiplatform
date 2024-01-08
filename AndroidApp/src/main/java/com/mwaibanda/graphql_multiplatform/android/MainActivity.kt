@@ -71,7 +71,7 @@ class MainActivity : ComponentActivity() {
             var addTodoText by remember {
                 mutableStateOf("")
             }
-            var coroutineScope = rememberCoroutineScope()
+            val coroutineScope = rememberCoroutineScope()
             LaunchedEffect(key1 = todos) {
                 if (todos.isEmpty()) {
                     val remoteTodos = getAllTodos()
@@ -92,7 +92,10 @@ class MainActivity : ComponentActivity() {
                                 horizontalArrangement = Arrangement.SpaceBetween,
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
-                                Text(text = "Todo List", style = MaterialTheme.typography.titleLarge)
+                                Text(
+                                    text = "Todo List",
+                                    style = MaterialTheme.typography.titleLarge
+                                )
                                 TextButton(onClick = { showAddTodo = !showAddTodo }) {
                                     Text(text = "ADD TODO")
                                 }
@@ -104,11 +107,16 @@ class MainActivity : ComponentActivity() {
                                 }
                             }
                         }
-                        AnimatedVisibility(visible = showAddTodo, enter = fadeIn(), exit = fadeOut()) {
+                        AnimatedVisibility(
+                            visible = showAddTodo,
+                            enter = fadeIn(),
+                            exit = fadeOut()
+                        ) {
                             Box(
                                 Modifier
                                     .fillMaxSize()
-                                    .background(Color.Black.copy(0.35f)), contentAlignment = Alignment.Center
+                                    .background(Color.Black.copy(0.35f)),
+                                contentAlignment = Alignment.Center
                             ) {
                                 Column(
                                     Modifier
@@ -117,21 +125,32 @@ class MainActivity : ComponentActivity() {
                                         .background(Color.White)
                                         .padding(20.dp)
                                 ) {
-                                    Text(text = "Add Todo", style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(bottom = 20.dp))
+                                    Text(
+                                        text = "Add Todo",
+                                        style = MaterialTheme.typography.titleMedium,
+                                        modifier = Modifier.padding(bottom = 20.dp)
+                                    )
                                     OutlinedTextField(value = addTodoText, onValueChange = {
                                         addTodoText = it
                                     })
                                     Row(
                                         Modifier
                                             .fillMaxWidth()
-                                            .padding(top = 20.dp), horizontalArrangement = Arrangement.SpaceBetween) {
+                                            .padding(top = 20.dp),
+                                        horizontalArrangement = Arrangement.SpaceBetween
+                                    ) {
                                         Button(onClick = { showAddTodo = !showAddTodo }) {
                                             Text(text = "Cancel")
                                         }
                                         Button(onClick = {
                                             showAddTodo = !showAddTodo
                                             coroutineScope.launch {
-                                                addTodo(NewTodo(text = addTodoText, userId = "Android")){
+                                                addTodo(
+                                                    NewTodo(
+                                                        text = addTodoText,
+                                                        userId = "Android"
+                                                    )
+                                                ) {
                                                     addTodoText = ""
                                                     todos = emptyList()
                                                 }
@@ -163,9 +182,14 @@ fun TodoCard(todo: GetAllTodosQuery.Todo, onUpdateTodos: () -> Unit) {
     Card(
         Modifier
             .fillMaxWidth()
-            .padding(10.dp)) {
+            .padding(10.dp)
+    ) {
         Column(Modifier.padding(10.dp)) {
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Column {
                     BasicTextField(
                         value = text,
@@ -177,13 +201,14 @@ fun TodoCard(todo: GetAllTodosQuery.Todo, onUpdateTodos: () -> Unit) {
                         textStyle = MaterialTheme.typography.titleMedium,
                         readOnly = canEdit.not(),
                         keyboardActions = KeyboardActions(onDone = {
-                        canEdit = canEdit.not()
+                            canEdit = canEdit.not()
                             coroutineScope.launch {
                                 updateTodo(UpdateTodo(id = todo.id, text = text)) {
                                     onUpdateTodos()
                                 }
                             }
-                    }))
+                        })
+                    )
 
                 }
                 Row {
@@ -194,7 +219,10 @@ fun TodoCard(todo: GetAllTodosQuery.Todo, onUpdateTodos: () -> Unit) {
                             text = todo.text
                         }
                     }) {
-                        Icon(imageVector = if (canEdit) Icons.Default.List else Icons.Default.Edit, contentDescription = "")
+                        Icon(
+                            imageVector = if (canEdit) Icons.Default.List else Icons.Default.Edit,
+                            contentDescription = ""
+                        )
                     }
                     IconButton(onClick = {
                         coroutineScope.launch {
