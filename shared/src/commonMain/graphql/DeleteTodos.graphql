@@ -1,0 +1,5 @@
+mutation DeleteTodo($input: DeleteTodo!) {
+    deleteTodo(input:$input) {
+        id
+    }
+}
